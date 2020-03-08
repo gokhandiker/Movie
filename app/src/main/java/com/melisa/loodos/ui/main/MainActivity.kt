@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
@@ -37,16 +38,17 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModel()
     private lateinit var movieAdapter: MovieAdapter
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        movieAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter(arrayListOf())
 
-        rv_movie.apply {
-            LinearLayoutManager(this@MainActivity)
-            movieAdapter
-        }
+
+        rv_movie.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rv_movie.adapter = movieAdapter
+
 
         initViewModel()
     }
@@ -56,10 +58,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.movieList.observe(
             this,
             Observer { newMovie ->
-                Log.e("newMovie..", "state: " + newMovie!!.title)
-            var list : List<Movie> = listOf(newMovie!!)
+            var list : ArrayList<Movie> = arrayListOf()
+                list.add(newMovie!!)
                 movieAdapter.updateData(list)
-                Log.e("newMovie..", "state: " + newMovie!!.actors)
             })
 
         viewModel.showLoading.observe(
