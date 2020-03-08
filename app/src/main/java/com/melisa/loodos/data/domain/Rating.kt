@@ -1,4 +1,4 @@
-package com.melisa.loodos.data.model
+package com.melisa.loodos.data.domain
 
 import com.squareup.moshi.Json
 

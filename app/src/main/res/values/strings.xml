@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Loodos</string>
+    <string name="search_hint">film arat</string>
 </resources>
