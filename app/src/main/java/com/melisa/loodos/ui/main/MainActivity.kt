@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -65,7 +66,10 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.showLoading.observe(
             this,
-            Observer { showLoading -> Log.e("loading..", "state: " + showLoading!!) })
+            Observer { showLoading -> Log.e("loading..", "state: " + showLoading!!)
+
+                main_progressBar.visibility = if (showLoading!!) View.VISIBLE else View.GONE
+            })
 
         viewModel.showError.observe(
             this,
