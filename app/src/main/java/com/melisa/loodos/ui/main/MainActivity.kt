@@ -27,7 +27,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), android.widget.SearchView.OnQueryTextListener {
 
     /**
      * 9c4f0a61 api key
@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        main_search_view.setOnQueryTextListener(this)
         movieAdapter = MovieAdapter(arrayListOf())
 
 
@@ -75,7 +76,17 @@ class MainActivity : AppCompatActivity() {
             this,
             Observer { showError -> Log.e("showError..", "state: " + showError!!) })
 
-        viewModel.loadMovie()
+
+    }
+
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+        viewModel.loadMovie(p0!!)
+        Log.e("onQueryTextSubmit",p0)
+        return true
+    }
+
+    override fun onQueryTextChange(p0: String?): Boolean {
+        return true
     }
 
 

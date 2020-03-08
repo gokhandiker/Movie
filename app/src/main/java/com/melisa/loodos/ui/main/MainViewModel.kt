@@ -20,12 +20,12 @@ class MainViewModel(private val movieRepository: MovieRepositoryImpl) : ViewMode
     val showError = SingleLiveEvent<String>()
 
 
-    fun loadMovie() {
+    fun loadMovie(searchText:String = "") {
         showLoading.value = true
 
         launch {
 
-            val result = withContext(Dispatchers.IO) { movieRepository.getMovie() }
+            val result = withContext(Dispatchers.IO) { movieRepository.getMovie(searchText) }
 
             showLoading.value = false
 

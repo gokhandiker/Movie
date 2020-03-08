@@ -6,9 +6,9 @@ import com.melisa.loodos.util.Constants
 import kotlin.reflect.jvm.internal.impl.load.java.Constant
 
 class MovieRepositoryImpl(private val movieService: MovieService) : MovieRepository {
-    override suspend fun getMovie(): Output<Movie> {
+    override suspend fun getMovie(searchText:String): Output<Movie> {
         return try {
-            val result = movieService.getMovie("9c4f0a61", "a").await()
+            val result = movieService.getMovie("9c4f0a61", searchText).await()
             Output.Success(result)
         } catch (ex: Exception) {
             Output.Error(ex)
