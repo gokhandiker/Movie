@@ -9,14 +9,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.melisa.loodos.BuildConfig
 import com.melisa.loodos.R
 import com.melisa.loodos.ui.choose.ChooseActivity
-import com.melisa.loodos.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
 
 class SplashActivity : AppCompatActivity() {
     private val SPLASH_TIME_OUT:Long=3000 // 3 sec
+    private val APP_TEXT_COLOR_KEY = "text_color"
+    private val APP_TEXT_SIZE_KEY = "text_size"
+    private val APP_TEXT_STRING_KEY= "text_str"
 
     private lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
 
@@ -27,45 +30,61 @@ class SplashActivity : AppCompatActivity() {
 
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
 
-        firebaseRemoteConfig.setConfigSettings(
-            FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(true)
-                .build()
-        )
 
-        firebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setDeveloperModeEnabled(BuildConfig.DEBUG)
+            .build()
 
 
-        txt_loodos.setTextColor(Color.parseColor(firebaseRemoteConfig.getString("text_color")))
-        txt_loodos.textSize = firebaseRemoteConfig.getValue("text_size").asDouble().toFloat()
-        txt_loodos.text = firebaseRemoteConfig.getString("text_str")
+        firebaseRemoteConfig?.setConfigSettings(configSettings)
+
+        firebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults)
+        //setting the default values for the UI
+        firebaseRemoteConfig?.setDefaults(R.xml.remote_config_defaults)
+
+        //getting the Remote values from Remote Config
+        getRemoteConfigValues()
+
+
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun getRemoteConfigValues() {
+        txt_loodos?.setTextColor(Color.parseColor(firebaseRemoteConfig.getString(APP_TEXT_COLOR_KEY)))
+        txt_loodos?.textSize = firebaseRemoteConfig.getValue(APP_TEXT_SIZE_KEY).asDouble().toFloat()
+        txt_loodos?.text = firebaseRemoteConfig.getString(APP_TEXT_STRING_KEY)
 
-        firebaseRemoteConfig.fetch(0)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Activated", Toast.LENGTH_SHORT).show()
+        var cacheExpiration: Long = 10
 
-                    Handler().postDelayed({
-                        /* Create an Intent that will start the Menu-Activity. */
-                        val mainIntent = Intent(this, ChooseActivity::class.java)
-                        startActivity(mainIntent)
-                        finish()
-                    }, 3000)
-
-                    firebaseRemoteConfig.activateFetched()
-                } else {
-                    Toast.makeText(this, "Not Activated", Toast.LENGTH_SHORT)
-                        .show()
-                }
+        firebaseRemoteConfig?.fetch(cacheExpiration)?.addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(applicationContext, "Fetch Succeeded", Toast.LENGTH_SHORT).show()
+                firebaseRemoteConfig?.activateFetched()
+            } else {
+                Toast.makeText(applicationContext, "Fetch Failed", Toast.LENGTH_SHORT).show()
             }
+            //changing the textview and backgorund color
+            setRemoteConfigValues()
+        }
+
     }
 
+    private fun setRemoteConfigValues() {
+        val remoteValueTextColor = firebaseRemoteConfig?.getString(APP_TEXT_COLOR_KEY)
+        val remoteValueTextSize = firebaseRemoteConfig?.getString(APP_TEXT_SIZE_KEY)
+        val remoteValueTextString = firebaseRemoteConfig?.getString(APP_TEXT_STRING_KEY)
+        Toast.makeText(applicationContext, remoteValueTextString, Toast.LENGTH_SHORT).show()
+        if (!remoteValueTextString.isNullOrEmpty()) {
+            txt_loodos?.text = remoteValueTextString
+            txt_loodos?.textSize = remoteValueTextSize.toFloat()
+            txt_loodos?.setTextColor(Color.parseColor(remoteValueTextColor))
+        } else
+            txt_loodos?.text = "Failed to load values"
 
-    override fun onPause() {
-        super.onPause()
+        Handler().postDelayed({
+            val mainIntent = Intent(this, ChooseActivity::class.java)
+            startActivity(mainIntent)
+            finish()
+        }, SPLASH_TIME_OUT)
     }
+
 }
