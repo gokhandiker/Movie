@@ -4,5 +4,13 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="splash_background">#33b2bf</color>
-    <color name="splash_text_color">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#333333</color>
+    <color name="light_gray">#444444</color>
+    <color name="orange">#F44336</color>
+    <color name="light_orange">#F15F53</color>
+
+
+
+
 </resources>

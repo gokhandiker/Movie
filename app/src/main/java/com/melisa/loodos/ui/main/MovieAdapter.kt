@@ -44,10 +44,11 @@ class MovieAdapter(var movieList: ArrayList<Movie>) : RecyclerView.Adapter<Movie
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val movieTitle = itemView.txt_movie_item_title
+
+
+
         fun bind(movie: Movie) {
             // Load images using Glide library
-
 
             Glide.with(itemView.context)
                 .load(movie.poster)
@@ -56,8 +57,11 @@ class MovieAdapter(var movieList: ArrayList<Movie>) : RecyclerView.Adapter<Movie
                 .into(itemView.img_movie_item_poster)
 
 
-            Log.e("MovieViewHolder: ",movie.title)
-            movieTitle.text = movie.title
+            itemView.txt_movie_item_title.text = movie.title
+            itemView.txt_movie_item_director.text = movie.director
+            itemView.txt_movie_item_runtime.text = movie.runtime
+            itemView.txt_movie_item_genre.text = movie.genre
+            itemView.txt_movie_item_plot.text = movie.plot
         }
     }
 }

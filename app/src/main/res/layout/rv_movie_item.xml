@@ -2,11 +2,13 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="250dp"
+    android:layout_marginLeft="5dp"
     android:layout_marginTop="5dp"
+    android:elevation="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginLeft="5dp">
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,10 +26,9 @@
                 android:id="@+id/img_movie_item_poster"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -37,27 +38,32 @@
                 android:id="@+id/txt_movie_item_runtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="116 min"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/colorAccent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/rv_item_txt_background"
                 android:padding="2dp"
-
-               />
+                android:textSize="13sp"
+                android:text="116 min"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
         </RelativeLayout>
-
 
 
         <TextView
             android:id="@+id/txt_movie_item_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="4dp"
-            android:text="Star Wars: Episode IV - A New Hope"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:text="Star Wars: Episode IV - "
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/image_section"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,14 +80,50 @@
 
         <TextView
             android:id="@+id/txt_movie_item_genre"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
             android:text="TextView"
+            android:textColor="@color/light_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/image_section"
             app:layout_constraintTop_toBottomOf="@+id/txt_movie_item_title" />
+
+        <TextView
+            android:id="@+id/txt_movie_item_director"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="4dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_section" />
+
+        <TextView
+            android:id="@+id/txt_movie_item_plot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="7"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="16dp"
+            android:text="TextView"
+            android:textColor="@color/light_gray"
+            app:layout_constraintBottom_toTopOf="@+id/txt_movie_item_director"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_section"
+            app:layout_constraintTop_toBottomOf="@+id/txt_movie_item_genre"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
