@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.melisa.loodos.R
+import com.melisa.loodos.ui.choose.ChooseActivity
 import com.melisa.loodos.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -43,23 +44,14 @@ class SplashActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-
-        /*
-                This will initiate fetching of parameters. We have set the expiry time as 0
-                which will ensure we get fresh parameters every time
-                */
-
-        /*
-                This will initiate fetching of parameters. We have set the expiry time as 0
-                which will ensure we get fresh parameters every time
-                */firebaseRemoteConfig.fetch(0)
+        firebaseRemoteConfig.fetch(0)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Activated", Toast.LENGTH_SHORT).show()
 
                     Handler().postDelayed({
                         /* Create an Intent that will start the Menu-Activity. */
-                        val mainIntent = Intent(this, MainActivity::class.java)
+                        val mainIntent = Intent(this, ChooseActivity::class.java)
                         startActivity(mainIntent)
                         finish()
                     }, 3000)

@@ -38,7 +38,6 @@ android {
     }
 
 
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -52,7 +51,7 @@ android {
 dependencies {
 
 
-    def moshiVersion="1.8.0"
+    def moshiVersion = "1.8.0"
     def retrofit2_version = "2.5.0"
     def okhttp3_version = "4.4.0"
     def kotlinCoroutineVersion = "1.2.0"
