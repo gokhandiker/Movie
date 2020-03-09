@@ -72,7 +72,7 @@ class SplashActivity : AppCompatActivity() {
         val remoteValueTextColor = firebaseRemoteConfig?.getString(APP_TEXT_COLOR_KEY)
         val remoteValueTextSize = firebaseRemoteConfig?.getString(APP_TEXT_SIZE_KEY)
         val remoteValueTextString = firebaseRemoteConfig?.getString(APP_TEXT_STRING_KEY)
-        Toast.makeText(applicationContext, remoteValueTextString, Toast.LENGTH_SHORT).show()
+
         if (!remoteValueTextString.isNullOrEmpty()) {
             txt_loodos?.text = remoteValueTextString
             txt_loodos?.textSize = remoteValueTextSize.toFloat()
