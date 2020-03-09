@@ -12,6 +12,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.melisa.loodos.R
 import com.melisa.loodos.data.domain.Movie
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity(){
         setSupportActionBar(toolbar)
 
 
+
         movieAdapter = MovieAdapter(arrayListOf())
 
 
@@ -48,8 +51,20 @@ class MainActivity : AppCompatActivity(){
 
 
         initViewModel()
+        setupAnimation()
     }
 
+
+    fun setupAnimation(){
+        val animation = findViewById<LottieAnimationView>(R.id.main_progressBar)
+        animation.speed = 2.0F // How fast does the animation play
+        animation.progress = 50F // Starts the animation from 50% of the beginning
+        animation.addAnimatorUpdateListener {
+            // Called everytime the frame of the animation changes
+        }
+        animation.repeatMode = LottieDrawable.RESTART // Restarts the animation (you can choose to reverse it as well)
+        animation.cancelAnimation() // Cancels the animation
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean { // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
@@ -66,6 +81,7 @@ class MainActivity : AppCompatActivity(){
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+
                 return true
 
             }
@@ -76,6 +92,7 @@ class MainActivity : AppCompatActivity(){
 
     private fun initViewModel() {
 
+        txt_info.text="Lütfen film aratınız"
         viewModel.movieList.observe(
             this,
             Observer { newMovie ->
@@ -84,9 +101,15 @@ class MainActivity : AppCompatActivity(){
                     var list: ArrayList<Movie> = arrayListOf()
                     list.add(newMovie!!)
                     movieAdapter.updateData(list)
+                    txt_info.visibility=View.GONE
                 } else {
                     Toast.makeText(this, "Film Bulunamadı!", Toast.LENGTH_SHORT)
                         .show()
+                    var list: ArrayList<Movie> = arrayListOf()
+
+                    movieAdapter.updateData(list)
+                    txt_info.visibility=View.VISIBLE
+                    txt_info.text="Aradığınız film Bulunamadı!"
                 }
 
             })
@@ -96,11 +119,15 @@ class MainActivity : AppCompatActivity(){
             Observer { showLoading -> Log.e("loading..", "state: " + showLoading!!)
 
                 main_progressBar.visibility = if (showLoading!!) View.VISIBLE else View.GONE
+
+                txt_info.visibility = View.GONE
             })
 
         viewModel.showError.observe(
             this,
-            Observer { showError -> Log.e("showError..", "state: " + showError!!) })
+            Observer { showError -> Log.e("showError..", "state: " + showError!!)
+                txt_info.text="Hata oluştu!"
+            })
 
 
     }
