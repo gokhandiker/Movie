@@ -1,34 +1,24 @@
 package com.melisa.loodos.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.melisa.loodos.R
 import com.melisa.loodos.data.domain.Movie
-import com.melisa.loodos.data.remote.MovieService
-import com.melisa.loodos.data.repository.MovieRepositoryImpl
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
-import retrofit2.CallAdapter
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity(), android.widget.SearchView.OnQueryTextListener {
+
+class MainActivity : AppCompatActivity(){
 
     /**
      * 9c4f0a61 api key
@@ -45,7 +35,11 @@ class MainActivity : AppCompatActivity(), android.widget.SearchView.OnQueryTextL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        main_search_view.setOnQueryTextListener(this)
+        val toolbar =
+            findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+
+
         movieAdapter = MovieAdapter(arrayListOf())
 
 
@@ -54,6 +48,30 @@ class MainActivity : AppCompatActivity(), android.widget.SearchView.OnQueryTextL
 
 
         initViewModel()
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean { // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu, menu)
+        var searchView: SearchView? = null
+        val myActionMenuItem: MenuItem = menu.findItem(R.id.action_search)
+        searchView = myActionMenuItem.getActionView() as SearchView
+        searchView.queryHint=getString(R.string.search_hint)
+        val finalSearchView: SearchView? = searchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.loadMovie(query!!)
+                Log.e("onQueryTextSubmit",query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+
+            }
+
+        })
+        return true
     }
 
     private fun initViewModel() {
@@ -87,15 +105,6 @@ class MainActivity : AppCompatActivity(), android.widget.SearchView.OnQueryTextL
 
     }
 
-    override fun onQueryTextSubmit(p0: String?): Boolean {
-        viewModel.loadMovie(p0!!)
-        Log.e("onQueryTextSubmit",p0)
-        return true
-    }
-
-    override fun onQueryTextChange(p0: String?): Boolean {
-        return true
-    }
 
 
 }
