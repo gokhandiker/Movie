@@ -3,7 +3,7 @@
 <defaultsMap>
     <entry>
         <key>text_str</key>
-        <value>Welcome to the app</value>
+        <value>Default Loodos</value>
     </entry>
     <entry>
         <key>text_size</key>
@@ -11,7 +11,7 @@
     </entry>
     <entry>
         <key>text_color</key>
-        <value>#FF0000</value>
+        <value>#ffffff</value>
     </entry>
 </defaultsMap>
     <!-- END xml_defaults -->

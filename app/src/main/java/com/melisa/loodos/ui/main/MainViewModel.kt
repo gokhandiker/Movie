@@ -3,7 +3,6 @@ package com.melisa.loodos.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.melisa.loodos.data.domain.Movie
-import com.melisa.loodos.data.repository.MovieRepository
 import com.melisa.loodos.data.repository.MovieRepositoryImpl
 import com.melisa.loodos.data.repository.Output
 import kotlinx.coroutines.*

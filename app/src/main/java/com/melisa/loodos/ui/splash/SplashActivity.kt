@@ -1,13 +1,16 @@
 package com.melisa.loodos.ui.splash
 
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.melisa.loodos.R
+import com.melisa.loodos.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
 
@@ -32,9 +35,9 @@ class SplashActivity : AppCompatActivity() {
         firebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
 
 
-        textView.setTextColor(Color.parseColor(firebaseRemoteConfig.getString("text_color")))
-        textView.textSize = firebaseRemoteConfig.getValue("text_size").asDouble().toFloat()
-        textView.text = firebaseRemoteConfig.getString("text_str")
+        txt_loodos.setTextColor(Color.parseColor(firebaseRemoteConfig.getString("text_color")))
+        txt_loodos.textSize = firebaseRemoteConfig.getValue("text_size").asDouble().toFloat()
+        txt_loodos.text = firebaseRemoteConfig.getString("text_str")
     }
 
     override fun onStart() {
@@ -53,6 +56,14 @@ class SplashActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Activated", Toast.LENGTH_SHORT).show()
+
+                    Handler().postDelayed({
+                        /* Create an Intent that will start the Menu-Activity. */
+                        val mainIntent = Intent(this, MainActivity::class.java)
+                        startActivity(mainIntent)
+                        finish()
+                    }, 3000)
+
                     firebaseRemoteConfig.activateFetched()
                 } else {
                     Toast.makeText(this, "Not Activated", Toast.LENGTH_SHORT)

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
@@ -60,9 +61,16 @@ class MainActivity : AppCompatActivity(), android.widget.SearchView.OnQueryTextL
         viewModel.movieList.observe(
             this,
             Observer { newMovie ->
-            var list : ArrayList<Movie> = arrayListOf()
-                list.add(newMovie!!)
-                movieAdapter.updateData(list)
+
+                if (newMovie!!.title != null) {
+                    var list: ArrayList<Movie> = arrayListOf()
+                    list.add(newMovie!!)
+                    movieAdapter.updateData(list)
+                } else {
+                    Toast.makeText(this, "Film Bulunamadı!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
             })
 
         viewModel.showLoading.observe(
